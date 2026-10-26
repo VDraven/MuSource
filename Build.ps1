@@ -17,6 +17,23 @@ $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
 $root = $PSScriptRoot
+
+function Get-VisualStudioPresetPrefix {
+    # Prefer the newest installed Visual Studio that has the C++ workload.
+    $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
+    if (-not (Test-Path -LiteralPath $vswhere)) {
+        return 'vs2022'
+    }
+
+    $hasCpp = 'Microsoft.VisualStudio.Component.VC.Tools.x86.x64'
+    $vs2026 = & $vswhere -latest -products * -version '[18.0,19.0)' -requires $hasCpp -property installationPath
+    if ($LASTEXITCODE -eq 0 -and $vs2026) {
+        return 'vs2026'
+    }
+
+    return 'vs2022'
+}
+
 $dotnet = Get-Command dotnet -ErrorAction Stop
 $sdkList = & $dotnet.Source --list-sdks
 if ($LASTEXITCODE -ne 0 -or -not ($sdkList -match '(?m)^10\.')) {
@@ -29,7 +46,7 @@ $configName = $Configuration.ToLowerInvariant()
 
 if ($Component -in @('All', 'Client')) {
     $cmake = Get-Command cmake -ErrorAction Stop
-    $presetPrefix = if ($Generator -eq 'Ninja') { 'ninja' } else { 'vs2022' }
+    $presetPrefix = if ($Generator -eq 'Ninja') { 'ninja' } else { Get-VisualStudioPresetPrefix }
     $configurePreset = "$presetPrefix-$Architecture"
     $buildPreset = "$configurePreset-$configName"
 

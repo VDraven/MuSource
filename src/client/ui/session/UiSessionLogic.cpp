@@ -592,10 +592,15 @@ void CUIMng::CreateCharacterScene()
     m_CharMakeWin->Create();
     m_WinList.AddHead(m_CharMakeWin.get());
 
+    ShowWin(m_CharSelMainWin.get());
+
+    // UpdateDisplay() auto-shows the character creation window when the account
+    // has no live character (see CCharSelMainWin::UpdateDisplay). It has to run
+    // *after* ShowWin(m_CharSelMainWin) so the creation window ends up on top
+    // and active: CWin::Update only calls UpdateWhileActive() for the active
+    // window, and that is where the Rml creation panel consumes its clicks.
     m_CharSelMainWin->UpdateDisplay();
     m_CharInfoBalloonMng->UpdateDisplay();
-
-    ShowWin(m_CharSelMainWin.get());
 
     m_bSysMenuWinShow = false;
     escapeKeyHeld_ = IsPress(VK_ESCAPE) || IsRepeat(VK_ESCAPE);

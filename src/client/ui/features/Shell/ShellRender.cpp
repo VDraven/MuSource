@@ -1228,7 +1228,12 @@ void CCharMakeWin::RenderCreateCharacter()
     Vector(camera[3], camera[4], camera[5], angle);
     g_Camera.FOV = camera[6];
     MoveCharacterCamera(m_createBasePosition, position, angle);
-    BeginOpengl(viewport.x, viewport.y, viewport.width, viewport.height);
+    // PreviewBounds() comes from the Rml layout (top-left origin), while the
+    // render tape viewport is bottom-left origin (see MapGpuRect in the GPU
+    // backend). Without this flip the preview is mirrored to the bottom of the
+    // screen.
+    BeginOpengl(viewport.x, REFERENCE_HEIGHT - viewport.y - viewport.height, viewport.width,
+                viewport.height);
     sessionKeeper_.Renderer()->RenderCharacter(&CharacterView, &CharacterView.Object, 0,
                                                &m_createVisual);
     glViewport2(0, 0, WindowWidth, WindowHeight);

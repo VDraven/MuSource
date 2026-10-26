@@ -58,7 +58,7 @@ Example: `bin/x64/Release/MuLauncher.exe`
 Requirements:
 
 - Windows 10 or Windows 11
-- Visual Studio 2022 with **Desktop development with C++**
+- Visual Studio 2022 or 2026 with **Desktop development with C++**
 - CMake 3.25 or newer
 - .NET SDK 10
 - Ninja only when using the Ninja generator
@@ -122,14 +122,16 @@ Available configure presets:
 
 - `vs2022-x64`
 - `vs2022-x86`
+- `vs2026-x64`
+- `vs2026-x86`
 - `ninja-x64`
 - `ninja-x86`
 
 Example:
 
 ```powershell
-cmake --preset vs2022-x64
-cmake --build --preset vs2022-x64-release
+cmake --preset vs2026-x64
+cmake --build --preset vs2026-x64-release
 ```
 
 Build parallelism is limited to 8 jobs.

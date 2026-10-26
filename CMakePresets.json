@@ -63,6 +63,19 @@
       }
     },
     {
+      "name": "windows-vs2026-base",
+      "hidden": true,
+      "generator": "Visual Studio 18 2026",
+      "cacheVariables": {
+        "CMAKE_CONFIGURATION_TYPES": "Debug;Release"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
       "name": "vs2022-x86",
       "displayName": "Visual Studio 2022 x86",
       "inherits": "windows-vs2022-base",
@@ -80,6 +93,32 @@
       "displayName": "Visual Studio 2022 x64",
       "inherits": "windows-vs2022-base",
       "binaryDir": "${sourceDir}/build/cmake/vs2022/x64",
+      "architecture": "x64",
+      "toolchainFile": "${sourceDir}/cmake/toolchains/msvc-x64.cmake",
+      "toolset": "host=x64",
+      "cacheVariables": {
+        "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/bin/x64",
+        "MU_MAIN_OUTPUT_NAME": "Main"
+      }
+    },
+    {
+      "name": "vs2026-x86",
+      "displayName": "Visual Studio 2026 x86",
+      "inherits": "windows-vs2026-base",
+      "binaryDir": "${sourceDir}/build/cmake/vs2026/x86",
+      "architecture": "Win32",
+      "toolchainFile": "${sourceDir}/cmake/toolchains/msvc-x86.cmake",
+      "toolset": "host=x64",
+      "cacheVariables": {
+        "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/bin/x86",
+        "MU_MAIN_OUTPUT_NAME": "Main"
+      }
+    },
+    {
+      "name": "vs2026-x64",
+      "displayName": "Visual Studio 2026 x64",
+      "inherits": "windows-vs2026-base",
+      "binaryDir": "${sourceDir}/build/cmake/vs2026/x64",
       "architecture": "x64",
       "toolchainFile": "${sourceDir}/cmake/toolchains/msvc-x64.cmake",
       "toolset": "host=x64",
@@ -144,6 +183,30 @@
       "name": "vs2022-x64-release",
       "inherits": "build-base",
       "configurePreset": "vs2022-x64",
+      "configuration": "Release"
+    },
+    {
+      "name": "vs2026-x86-debug",
+      "inherits": "build-base",
+      "configurePreset": "vs2026-x86",
+      "configuration": "Debug"
+    },
+    {
+      "name": "vs2026-x86-release",
+      "inherits": "build-base",
+      "configurePreset": "vs2026-x86",
+      "configuration": "Release"
+    },
+    {
+      "name": "vs2026-x64-debug",
+      "inherits": "build-base",
+      "configurePreset": "vs2026-x64",
+      "configuration": "Debug"
+    },
+    {
+      "name": "vs2026-x64-release",
+      "inherits": "build-base",
+      "configurePreset": "vs2026-x64",
       "configuration": "Release"
     }
   ]
